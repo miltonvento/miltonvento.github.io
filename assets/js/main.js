@@ -251,6 +251,40 @@
   new PureCounter();
 
 })()
+  // Function to update the URL hash when a navigation link is clicked
+  function updateHash(hash) {
+    history.pushState(null, null, hash);
+  }
+
+  // Function to handle clicks on navigation links
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', function(event) {
+      // Prevent default link behavior
+      event.preventDefault();
+
+      // Get the target section from the href attribute
+      const target = this.getAttribute('href');
+
+      // Update the URL hash without page reload
+      updateHash(target);
+
+      // Scroll to the target section smoothly
+      document.querySelector(target).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
+  // Function to handle back/forward navigation
+  window.onpopstate = function(event) {
+    // Scroll to the target section smoothly
+    const hash = location.hash;
+    if (hash) {
+      document.querySelector(hash).scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
+  };
 
 // function sendEmail() {
 //     var name = document.getElementById('name').value;
